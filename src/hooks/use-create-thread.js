@@ -9,5 +9,4 @@ export function useCreateThread  ()  {
     closeDialog:() => setOpen(false)
   }
 }
-
 export default useCreateThread
