@@ -1,20 +1,19 @@
-import React from 'react'
-import BottomNav from "@/components/bottom-nav";
-import Header from "@/components/header";
-import SidebarNav from "@/components/sidebar-nav";
-import { PlusIcon, Sidebar } from "lucide-react";
+import BottomNav from "../components/bottom-nav";
+import Header from "../components/header";
+import SidebarNav from "../components/sidebar-nav";
+import ThreadForm from "@/components/thread-form";
 
-import { Outlet } from "react-router-dom";
+import { useCreateThread } from "../hooks/use-create-thread";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import useCreateThread from "@/hooks/use-create-thread";
-import ThreadForm from '@/components/thread-from';
+} from "../components/ui/dialog";
+
+import ThreadForm from "@/components/thread-form";
+import { useCreateThread } from "@/hooks/use-create-thread";
 
 const AppLayout = () => {
   const thread = useCreateThread();
