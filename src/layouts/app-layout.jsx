@@ -11,9 +11,10 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../components/ui/dialog";
+import { Outlet } from "react-router-dom";
+import { PlusIcon } from "lucide-react";
 
-import ThreadForm from "@/components/thread-form";
-import { useCreateThread } from "@/hooks/use-create-thread";
+
 
 const AppLayout = () => {
   const thread = useCreateThread();
