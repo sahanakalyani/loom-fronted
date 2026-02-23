@@ -14,8 +14,6 @@ import {
 import { Outlet } from "react-router-dom";
 import { PlusIcon } from "lucide-react";
 
-
-
 const AppLayout = () => {
   const thread = useCreateThread();
   return (
@@ -23,9 +21,12 @@ const AppLayout = () => {
       <main>
         <SidebarNav onCreateClick={thread.openDialog} />
         <Header />
-        <div className="w-full md:max-w-4xl mx-auto">
-          <Outlet />
+        <div className="bg-[#fafafa]">
+          <div className="w-full md:max-w-180 mx-auto">
+            <Outlet />
+          </div>
         </div>
+
         <BottomNav onCreateClick={thread.openDialog} />
         <Dialog open={thread.open} onOpenChange={thread.setOpen}>
           <DialogContent
