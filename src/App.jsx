@@ -5,8 +5,7 @@ import Home from "./pages/home";
 import Login from "./pages/login";
 import Register from "./pages/register";
 import { isAuthenticated } from "./services/auth.service";
-import CreateThreadModal from "./components/create-thred-modol";
-
+import CreateThreadModal from "./components/create-thread-model";
 
 
 const PrivateRoute = ({ children }) =>
