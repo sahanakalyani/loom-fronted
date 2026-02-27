@@ -1,4 +1,3 @@
-
 import PostCard from "@/components/post-card";
 import { getFeed } from "@/services/posts.service";
 import React, { useEffect, useState } from "react";
@@ -33,7 +32,9 @@ export default function Home() {
       <div className="w-full max-w-180 bg-white border border-black/10 rounded-4xl shadow-xs sticky z-10">
         {/* Feed content */}
         {loading && (
-          <p className="text-gray-500 text-center text-sm py-10">Loading feed...</p>
+          <p className="text-gray-500 text-center text-sm py-10">
+            Loading feed...
+          </p>
         )}
 
         {!loading && error && (
@@ -44,7 +45,9 @@ export default function Home() {
             <p className="font-semibold text-gray-900 text-[15px] tracking-tight">
               Something went wrong
             </p>
-            <p className="text-sm text-gray-400 leading-relaxed max-w-xs">{error}</p>
+            <p className="text-sm text-gray-400 leading-relaxed max-w-xs">
+              {error}
+            </p>
             <button
               onClick={loadFeed}
               className="mt-2 px-5 py-2 rounded-full bg-gray-950 text-white text-sm font-semibold hover:bg-gray-700 transition-all duration-150"
@@ -70,7 +73,7 @@ export default function Home() {
 
         {!loading && !error && posts.length > 0 && (
           <div className="animate-[fadeIn_0.3s_ease]">
-            {posts.map((post,) => (
+            {posts.map((post) => (
               <>
                 <PostCard key={post.post_id} post={post} />
               </>
