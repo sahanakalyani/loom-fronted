@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Link } from "react-router-dom";
 
 const Search = () => {
   const [query, setQuery] = useState("");
@@ -102,21 +103,56 @@ const Search = () => {
 
         {/* TODO:Results with Shandcn Tabs */}
         {!loading && !error && hasResults && (
-          <Tabs defaultValue="account" className="w-[400px]">
-            <TabsList>
-              <TabsTrigger value="users">
+          <Tabs defaultValue="users" className="w-full">
+            <TabsList className="w-full rounded-none border-b border-black/20 bg-transparent h-11 p-0 gap-0">
+              <TabsTrigger
+                value="users"
+                className="h-full flex-1 rounded-none text-p[13px] font-medium text-gray400 bg-transparant shadow-none data-[state=active]: bg-transparanent data-[state=active]:shadow-none data-[state=active]:text-gray-900 data-[state=active]:font-semibold relative after:absolute after:bottom-0 after:left-0 after:right-0 after:right-h-[2px]after:bg-gray-900 after:scale-x-0 data[state=active]:after:scale-x-100 after:transparent-transform"
+              >
                 People
                 <span>{users.length}</span>
               </TabsTrigger>
 
-              <TabsTrigger value="posts">
+              <TabsTrigger
+                value="posts"
+                className="h-full flex-1 rounded-none text-p[13px] font-medium text-gray400 bg-transparant shadow-none data-[state=active]: bg-transparanent data-[state=active]:shadow-none data-[state=active]:text-gray-900 data-[state=active]:font-semibold relative after:absolute after:bottom-0 after:left-0 after:right-0 after:right-h-[2px]after:bg-gray-900 after:scale-x-0 data[state=active]:after:scale-x-100 after:transparent-transform"
+              >
                 Posts
                 <span>{posts.length}</span>
               </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="users"></TabsContent>
-            <TabsContent value="posts"></TabsContent>
+            <TabsContent value="users className="mt-0"> 
+            </TabsContent>
+            <TabsContent value="posts className="mt-0">
+            {posts.length==0?}
+            <p className="text-center text-5m text-gray-400 py-10">
+              No posts found
+              <p>
+                ) : (
+                  users.map((user)=>(
+                    <Link
+                    to={'/pepole/${user.username}'}
+                    className="flex items-center gap-3 px-5 py3.5 hover:bg-gray-50 transtion-colors border-b border-black/20 last:border-b-0">
+                      {users.userName?.charAt(0).toU}
+
+                    </Link>
+                    
+                      <div "w-10 h-10 rounded_full bg-gradient-to-br from gray-700 to-gray-500 flex items-center justify-center text-white font-bold text-5m shrink-0">
+                        {users.userName?.charAt(0).toUpperCase()}
+
+                      </div>
+
+                    </Link>
+
+                  )
+
+              </p>
+
+
+            </p>
+
+            </TabsContent>
           </Tabs>
         )}
       </div>
