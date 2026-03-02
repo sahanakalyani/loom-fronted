@@ -1,5 +1,3 @@
-
-
 import LooomLogo from "../assets/looom-logo.svg";
 import NavMenu from "./nav-menu";
 import UserMenu from "./user-menu";
@@ -17,11 +15,6 @@ const SidebarNav = ({ onCreateClick }) => {
         <UserMenu
           size={26}
           className="text-gray-400 hover:text-black transtion-colors"
-        />
-
-        <UserMenu
-          size={26}
-          className="text-gray-400hover:text-black transition-colors"
         />
       </div>
     </nav>

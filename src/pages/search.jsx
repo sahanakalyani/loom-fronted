@@ -5,6 +5,7 @@ import {
   SlidersHorizontalIcon,
 } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Search = () => {
   const [query, setQuery] = useState("");
@@ -13,6 +14,7 @@ const Search = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const debounceRef = useRef(null);
+
   useEffect(() => {
     if (!query.trim()) {
       setUsers([]);
@@ -23,7 +25,6 @@ const Search = () => {
 
     clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(async () => {
-      // data fetching
       setLoading(true);
       setError("");
       try {
@@ -63,11 +64,61 @@ const Search = () => {
             </button>
           </div>
         </div>
-        {/* TODO:Loading */}
-        {/* Todo:error */}
+        {/* Loading */}
+        {loading && (
+          <div className="flex flex-col items-center justify-center py-10">
+            <div className="w-5 h-5 border-2 border-gray-200 border-t-gray-500 rounded-full animate-spin" />
+          </div>
+        )}
+
+        {/* error */}
+        {!loading && error && (
+          <div className="flex items-center justify-center px-6 py-12 gap-2 text-center flex-col">
+            <p className="font-semibold text-gray-900 text-[14px]">
+              Something went wrong
+            </p>
+            <p className="text-sm text-gray-400">{error}</p>
+          </div>
+        )}
+
         {/* TODO:Empty Query */}
+        {!loading && !error && !query.trim() && (
+          <div className="flex items-center justify-center px-6 py-12">
+            <p className="text-sm text-gray-400">Search for people or posts</p>
+          </div>
+        )}
+
         {/* TODO:No results */}
+        {!loading && !error && query.trim() && !hasResults && (
+          <div className="flex flex-col items-center justify-center px-6 py-12 gap-1 text-center">
+            <p className="font-semibold text-gray-900 text-[14px]">
+              No results for "{query}
+            </p>
+            <p className="text-sm text-gray-400">
+              Try a different keyword or username
+            </p>
+          </div>
+        )}
+
         {/* TODO:Results with Shandcn Tabs */}
+        {!loading && !error && hasResults && (
+          <Tabs defaultValue="account" className="w-[400px]">
+            <TabsList>
+              <TabsTrigger value="users">
+                People
+                <span>{users.length}</span>
+              </TabsTrigger>
+
+              <TabsTrigger value="posts">
+                Posts
+                <span>{posts.length}</span>
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="users"></TabsContent>
+            <TabsContent value="posts"></TabsContent>
+          </Tabs>
+        )}
       </div>
     </div>
   );

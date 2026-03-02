@@ -9,12 +9,13 @@ const NavMenu = ({ iconSize = 22, onCreateClick }) => {
     <>
       {NAV_MENU_ITEMS.map((menuItem, index) => {
         const { Icon, isCreate, url } = menuItem;
-        const active = url === "/" ? pathname == "/" : pathname.startsWith(url);
+        const active =
+          url === "/" ? pathname === "/" : pathname.startsWith(url);
         return (
           <Link
             to={isCreate ? "#" : url}
             key={index}
-            className={`${isCreate && "bg-gray-200"} group px-4 py-3.5 rounded-lg hover:bg-gray-200 transition-all duration-150 cursor-pointer w-full md:w-fit flex justify-centre items-centre px3.5 md:px-5`}
+            className={`${isCreate && "bg-gray-200 hover:bg-gray-200"} group px-3.5 py-2 rounded-lg hover:bg-gray-200 transition-all duration-150 cursor-pointer w-full md:w-fit flex justify-center items-center md:px-5`}
             onClick={
               isCreate
                 ? (e) => {
