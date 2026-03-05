@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import PostCard from "@/components/post-card";
 import { Link } from "react-router-dom";
 
 const Search = () => {
@@ -107,7 +108,8 @@ const Search = () => {
             <TabsList className="w-full rounded-none border-b border-black/20 bg-transparent h-11 p-0 gap-0">
               <TabsTrigger
                 value="users"
-                className="h-full flex-1 rounded-none text-p[13px] font-medium text-gray400 bg-transparant shadow-none data-[state=active]: bg-transparanent data-[state=active]:shadow-none data-[state=active]:text-gray-900 data-[state=active]:font-semibold relative after:absolute after:bottom-0 after:left-0 after:right-0 after:right-h-[2px]after:bg-gray-900 after:scale-x-0 data[state=active]:after:scale-x-100 after:transparent-transform"
+                className="h-full flex-1 rounded-none text-[13px] font-medium text-gray-400 bg-transparant shadow-none data-[state=active]:bg-transparant data-[state=active]:shadow-none data-[state=active]:text-gray-900 data-[state=active]:font-semibold relative
+                after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-gray-900 after:scale-x-0 data[state=active]:after:scale-x-100 after:transparent-transform after:duration-200"
               >
                 People
                 <span>{users.length}</span>
@@ -115,43 +117,46 @@ const Search = () => {
 
               <TabsTrigger
                 value="posts"
-                className="h-full flex-1 rounded-none text-p[13px] font-medium text-gray400 bg-transparant shadow-none data-[state=active]: bg-transparanent data-[state=active]:shadow-none data-[state=active]:text-gray-900 data-[state=active]:font-semibold relative after:absolute after:bottom-0 after:left-0 after:right-0 after:right-h-[2px]after:bg-gray-900 after:scale-x-0 data[state=active]:after:scale-x-100 after:transparent-transform"
+                className="h-full flex-1 rounded-none text-[13px] font-medium text-gray-400 bg-transparant shadow-none data-[state=active]:bg-transparant data-[state=active]:shadow-none data-[state=active]:text-gray-900 data-[state=active]:font-semibold relative
+                after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-gray-900 after:scale-x-0 data[state=active]:after:scale-x-100 after:transparent-transform after:duration-200"
               >
                 Posts
                 <span>{posts.length}</span>
               </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="users className="mt-0"> 
+            <TabsContent value="users" className="mt-0">
+              {users.length === 0 ? (
+                <p className="text-center text-sm text-gray-400 py-10">
+                  No People Found
+                </p>
+              ) : (
+                users.map((user) => (
+                  <Link
+                    to={`/people/${user.username}`}
+                    className="flex items-center gap-3 px-5 py-3.5 hover:bg-gray-50 transition-colors border-b border-black/20 last:border-b-0"
+                  >
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gray-700 to-gray-500 flex items-center justify-center text-white font-bold text-sm shrink-0">
+                      {user.username?.charAt(0).toUpperCase()}
+                    </div>
+
+                    <div className="flex items-center gap-1">
+                      <span className="text-[14px] font-semibold text-gray-900 truncate">
+                        {user.username}
+                      </span>
+                    </div>
+                  </Link>
+                ))
+              )}
             </TabsContent>
-            <TabsContent value="posts className="mt-0">
-            {posts.length==0?}
-            <p className="text-center text-5m text-gray-400 py-10">
-              No posts found
-              <p>
-                ) : (
-                  users.map((user)=>(
-                    <Link
-                    to={'/pepole/${user.username}'}
-                    className="flex items-center gap-3 px-5 py3.5 hover:bg-gray-50 transtion-colors border-b border-black/20 last:border-b-0">
-                      {users.userName?.charAt(0).toU}
-
-                    </Link>
-                    
-                      <div "w-10 h-10 rounded_full bg-gradient-to-br from gray-700 to-gray-500 flex items-center justify-center text-white font-bold text-5m shrink-0">
-                        {users.userName?.charAt(0).toUpperCase()}
-
-                      </div>
-
-                    </Link>
-
-                  )
-
-              </p>
-
-
-            </p>
-
+            <TabsContent value="posts" className="mt-0">
+              {posts.length === 0 ? (
+                <p className="text-center text-sm text-gray-400 py-10 ">
+                  NO Posts Found
+                </p>
+              ) : (
+                posts.map((post) => <PostCard key={post.post_id} post={post} />)
+              )}
             </TabsContent>
           </Tabs>
         )}
