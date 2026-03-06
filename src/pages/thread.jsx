@@ -61,6 +61,7 @@ const Thread = () => {
   const addReply = (reply) => {
     setReplies((prev) => [...prev, reply]);
   };
+  console.log(replies);
 
   return (
     <div className="min-h-screen+ w-full flex flex-col items-center py-6 px-4">
@@ -78,7 +79,7 @@ const Thread = () => {
       </div>
 
       <div className="w-full max-w-180 bg-white border border-black/10 rounded-4xl shadow-xs">
-        <PostCard post={post} />
+        <PostCard post={post} viewPost />
         <div className="mx-5 border-d border-black/10" />
 
         <div className="px-1">
