@@ -1,8 +1,9 @@
 import PostCard from "@/components/post-card";
 import ReplyForm from "@/components/reply-form";
 import { getThread } from "@/services/posts.service";
+import { ArrowLeft } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Thread = () => {
   const { id } = useParams();
@@ -10,6 +11,7 @@ const Thread = () => {
   const [replies, setReplies] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   const loadThread = async () => {
     try {
@@ -25,21 +27,79 @@ const Thread = () => {
   useEffect(() => {
     loadThread();
   }, [id]);
-  if (loading) return <p className="p-6 text-center">Loading post</p>;
 
-  if (error) return <p className="p-6 text-center text-red-500">{error}</p>;
+  if (loading) {
+    return (
+      <div className="min-h-screen w-full flex items-center justify-center">
+        <p className="p-6 text-center text-gray-500 text-sm">Loading post</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center px-6 py-16 gap-3 text-center min-h-screen">
+        <div className="w-12 h-12 rounded-full bg-red-50 flex items-center justify-center text-xl">
+          ⚠️
+        </div>
+        <p className="font-semibold text-gray-900 text-[15px] tracking-tight">
+          Something went wrong
+        </p>
+        <p className="text-sm text-gray-400 leading-relaxed max-w-xs">
+          {error}
+        </p>
+        <button
+          onClick={loadThread}
+          className="mt-2 px-5 py-2 rounded-full bg-gray-950 text-white text-sm font-semibold hover:bg-gray-700 transition-all duration-150"
+        >
+          Try again
+        </button>
+      </div>
+    );
+  }
+
   const addReply = (reply) => {
     setReplies((prev) => [...prev, reply]);
   };
 
   return (
-    <div className="w-full">
-      <PostCard post={post} />
-      <ReplyForm parentId={id} onReply={addReply} />
-      <div>
-        {replies.map((reply) => (
-          <PostCard key={reply.post_id} post={reply} />
-        ))}
+    <div className="min-h-screen+ w-full flex flex-col items-center py-6 px-4">
+      <div className="w-full max-w-180 flex items-center mb-4 shrink-0">
+        <button className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-black/10 transition-all duration-150">
+          <ArrowLeft
+            size={18}
+            className="text-gray-800"
+            onClick={() => navigate(-1)}
+          />
+        </button>
+        <h1 className="text-[15px] font-medium flex-1 text-center pr-8">
+          Thread
+        </h1>
+      </div>
+
+      <div className="w-full max-w-180 bg-white border border-black/10 rounded-4xl shadow-xs">
+        <PostCard post={post} />
+        <div className="mx-5 border-d border-black/10" />
+
+        <div className="px-1">
+          <ReplyForm parentId={id} onReply={addReply} />
+        </div>
+        {replies.length > 0 &&
+          replies.map((reply, idx) => (
+            <div key={reply.post_id}>
+              <PostCard post={reply} isReply />
+              {idx < replies.length - 1 && (
+                <div className="mx-5 border-b border-black/10" />
+              )}
+            </div>
+          ))}
+        {replies.length === 0 && (
+          <div className="flex flex-col items-center justify-center px-6 py-10 text-center">
+            <p className="text-sm text-gray-400 leading-relaxed">
+              No Replies Yet. Be The First to Reply!
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
