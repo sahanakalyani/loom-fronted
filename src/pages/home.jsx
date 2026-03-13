@@ -1,46 +1,85 @@
-import axios from "axios";
+import PostCard from "@/components/post-card";
+import { getFeed } from "@/services/posts.service";
+import React, { useEffect, useState } from "react";
 
-const api = axios.create({
-  baseURL: "http://localhost:3000/api/v1",
-  headers: { "Content-Type": "application/json" },
-  timeout: 10000, // prevent hanging requests
-});
+export default function Home() {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-// Attach token
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-  if (token) config.headers.Authorization = `Bearer ${token}`;
-  return config;
-});
-
-// Global response handling
-api.interceptors.response.use(
-  (res) => res,
-  (error) => {
-    // Network / timeout errors
-    if (!error.response) {
-      return Promise.reject({
-        status: null,
-        message: "Network error. Check your connection.",
-      });
+  const loadFeed = async () => {
+    setLoading(true);
+    try {
+      setError("");
+      const data = await getFeed();
+      setPosts(data);
+    } catch (err) {
+      setError(err.message || "Failed to load feed");
+    } finally {
+      setLoading(false);
     }
+  };
 
-    const { status, data } = error.response;
+  useEffect(() => {
+    loadFeed();
+  }, []);
 
-    // Auto logout on auth failure
-    if (status === 401) {
-      localStorage.removeItem("token");
-      if (window.location.pathname !== "/login") {
-        window.location.href = "/login";
-      }
-    }
+  return (
+    <div className="min-h-screen w-full flex flex-col items-center py-6">
+      <h1 className="hidden md:inline-block text-[15px] font-medium mb-4 shrink-0">
+        Home
+      </h1>
 
-    // Return structured error
-    return Promise.reject({
-      status,
-      message: data?.error || data?.message || "Something went wrong",
-    });
-  },
-);
+      <div className="w-full md:bg-white md:border md:border-black/10 md:rounded-3xl md:shadow-xs">
+        {/* Feed content */}
+        {loading && (
+          <p className="text-gray-500 text-center text-sm py-10">
+            Loading feed...
+          </p>
+        )}
 
-export default api;
+        {!loading && error && (
+          <div className="flex flex-col items-center justify-center px-6 py-16 gap-3 text-center">
+            <div className="w-12 h-12 rounded-full bg-red-50 flex items-center justify-center text-xl">
+              ⚠️
+            </div>
+            <p className="font-semibold text-gray-900 text-[15px] tracking-tight">
+              Something went wrong
+            </p>
+            <p className="text-sm text-gray-400 leading-relaxed max-w-xs">
+              {error}
+            </p>
+            <button
+              onClick={loadFeed}
+              className="mt-2 px-5 py-2 rounded-full bg-gray-950 text-white text-sm font-semibold hover:bg-gray-700 transition-all duration-150"
+            >
+              Try again
+            </button>
+          </div>
+        )}
+
+        {!loading && !error && !posts.length && (
+          <div className="flex flex-col items-center justify-center px-6 py-16 gap-3 text-center">
+            <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-xl">
+              🚀
+            </div>
+            <p className="font-semibold text-gray-900 text-[15px] tracking-tight">
+              Nothing here yet
+            </p>
+            <p className="text-sm text-gray-400 leading-relaxed max-w-xs">
+              Be the first to start a thread. Your posts will appear here.
+            </p>
+          </div>
+        )}
+
+        {!loading && !error && posts.length > 0 && (
+          <div className="animate-[fadeIn_0.3s_ease]">
+            {posts.map((post) => (
+              <PostCard key={post.post_id} post={post} />
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
