@@ -100,7 +100,16 @@ export default function Thread() {
             <div className="animate-[fadeIn_0.3s_ease]">
               {replies.map((reply, index) => (
                 <div key={reply.post_id}>
-                  <PostCard post={reply} isReply />
+                  <PostCard
+                    post={reply}
+                    isReply
+                    onDelete={(id) =>
+                      setReplies(
+                        (prev) => prev,
+                        filter((p) => p.post_id !== id),
+                      )
+                    }
+                  />
                   {index < replies.length - 1 && (
                     <div className="mx-5 border-t border-black/[0.06]" />
                   )}
