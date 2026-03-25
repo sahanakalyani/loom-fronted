@@ -170,7 +170,7 @@ const Profile = () => {
             <div className="animate-[fadeIn_0.3s_ease]">
               {replies.map((post, index) => (
                 <div key={post.post_id}>
-                  <PostCard post={post} />
+                  wwwwwwCard post={post} /
                   {index < replies.length - 1 && (
                     <div className="mx-5 border-b border-black/20" />
                   )}
