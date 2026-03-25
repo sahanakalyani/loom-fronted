@@ -149,7 +149,7 @@ const Search = () => {
                     <li key={user.user_id ?? index}>
                       <Link
                         to={`/profile/${user.username}`}
-                        className="flex items-center gap-3 px-5 py-3.5 hover:bg-gray-50 transition-colors border-b border-black/[0.06] last:border-b-0"
+                        className="flex items-center gap-3 px-5 py-3.5 hover:bg-gray-50 transition-colors border-b border-black/10 last:border-b-0"
                       >
                         {user.avatar_url ? (
                           <img
